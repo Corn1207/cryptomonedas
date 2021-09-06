@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 const Label = styled.label`
@@ -6,7 +6,7 @@ const Label = styled.label`
   color: #ffffff;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   margin-top: 2rem;
   display: block;
 `;
@@ -29,8 +29,13 @@ const useMoneda = (label, stateInicial, opciones) => {
     return (
       <>
         <Label>{label}</Label>
-        <Select onChange={(e) => actualizarState(e.target.value)} value={state}>
-          <option value=""> - Seleccione -</option>
+        <Select
+          onChange={(e) => {
+            actualizarState(e.target.value);
+          }}
+          value={state}
+        >
+          <option value=""> - Select -</option>
           {opciones.map((opcion) => (
             <option key={opcion.codigo} value={opcion.codigo}>
               {opcion.nombre}

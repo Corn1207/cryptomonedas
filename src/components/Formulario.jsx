@@ -23,30 +23,29 @@ const Boton = styled.input`
   }
 `;
 
-const Formulario = ({ guardarMoneda, guardarCriptomoneda }) => {
+const Formulario = ({ guardarMoneda, guardarCriptomoneda, handleResults, resultado, guardarCargando }) => {
   // State del listado de criptomonedas
   const [listacripto, guardarListacripto] = useState([]);
   const [error, guardarError] = useState(false);
 
   const MONEDAS = [
-    { codigo: "PEN", nombre: "Sol peruano" },
-    { codigo: "USD", nombre: "Dolar Estadounidense" },
-    { codigo: "MXN", nombre: "Peso Mexicano" },
+    { codigo: "PEN", nombre: "Peruvian Sol" },
+    { codigo: "USD", nombre: "American dollar" },
+    { codigo: "MXN", nombre: "Mexican Peso" },
     { codigo: "EUR", nombre: "Euro" },
-    { codigo: "GBP", nombre: "Libra Esterlina" },
+    { codigo: "GBP", nombre: "Pound sterling" },
   ];
   // Utilizar useMoneda
-  const [moneda, SelectMoneda] = useMoneda("Elige tu moneda", "", MONEDAS);
+  const [moneda, SelectMoneda] = useMoneda("Choose your currency", "", MONEDAS);
 
   // Utilizar useCriptomoneda
   const [criptomoneda, SelectCripto] = useCriptomoneda(
-    "Elige tu criptomoneda",
+    "Choose your cryptocurrency",
     "",
     listacripto
   );
 
-  // Ejecutar llamado a API
-
+  // Ejecutar llamado a API llamando a criptomonedas
   useEffect(() => {
     const consultarAPI = async () => {
       const url =
@@ -72,14 +71,18 @@ const Formulario = ({ guardarMoneda, guardarCriptomoneda }) => {
     guardarError(false);
     guardarMoneda(moneda);
     guardarCriptomoneda(criptomoneda);
+
+    if(resultado !== "") {
+      handleResults()
+    }
   };
 
   return (
     <form onSubmit={cotizarMoneda}>
-      {error ? <Error mensaje="Todos los campos son obligatorios" /> : null}
+      {error ? <Error mensaje="All fields are required" /> : null}
       <SelectMoneda />
       <SelectCripto />
-      <Boton type="submit" value="Calcular" />
+      <Boton type="submit" value="Calculate" />
     </form>
   );
 };
